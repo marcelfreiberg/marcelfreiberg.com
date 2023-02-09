@@ -33,6 +33,7 @@
 
 .container {
   display: flex;
+  position: relative;
   height: 100%;
   padding-top: 0px;
   justify-content: space-between;
@@ -55,7 +56,6 @@
 
 .side_box>.paragraph {
   text-align: justify;
-  padding-right: 90px;
   line-height: 24px;
   padding-right: 125px;
   color: #999;
@@ -69,4 +69,21 @@
 
 .side_image_m {
   object-fit: contain;
+}
+
+@media (max-width: 991px) {
+  .side_box {
+    position: absolute;
+    z-index: 2;
+    align-items: center;
+    padding-bottom: 46px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 46px;
+    bottom: 125px;
+  }
+
+  .side_box>.paragraph {
+    padding-right: 0;
+  }
 }
