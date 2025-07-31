@@ -1,10 +1,10 @@
 import type { NextConfig } from 'next'
+import nextra from 'nextra'
 
 const nextConfig: NextConfig = {
 }
 
-// @ts-ignore
-const withNextra = require('nextra')({
+const withNextra = nextra({
     theme: 'nextra-theme-blog',
     themeConfig: './theme.config.jsx'
 })
