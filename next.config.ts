@@ -5,8 +5,7 @@ const nextConfig: NextConfig = {
 }
 
 const withNextra = nextra({
-    theme: 'nextra-theme-blog',
-    themeConfig: './theme.config.jsx'
+    search: false
 })
 
 export default withNextra(nextConfig)
