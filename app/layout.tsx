@@ -14,7 +14,7 @@ export const metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body>
+      <body className="min-h-screen">
         {/* <Navigation /> */}
         <main>{children}</main>
       </body>
