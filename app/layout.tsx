@@ -1,7 +1,8 @@
-import { JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+import Navigation from '@/components/Navigation'
+import { JetBrains_Mono } from 'next/font/google'
 
-const jetbrainsMono = JetBrains_Mono({ 
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono'
 });
@@ -14,7 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" className={jetbrainsMono.variable}>
       <body className="min-h-screen">
-        {/* <Navigation /> */}
+        <Navigation />
         <main>{children}</main>
       </body>
     </html>
