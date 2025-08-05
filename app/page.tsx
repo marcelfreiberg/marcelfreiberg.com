@@ -27,16 +27,16 @@ export default function Home() {
                                 <div className="pl-4 space-y-1 mt-2">
                                     <div><span className="text-neural-blue">def</span> <span className="text-neural-cyan">__init__</span><span className="text-neural-light">(self):</span></div>
                                     <div className="pl-4 space-y-1">
-                                        <div><span className="text-neural-light">self.name = </span><span className="text-data-green">"Marcel Freiberg"</span></div>
+                                        <div><span className="text-neural-light">self.name = </span><span className="text-data-green">&quot;Marcel Freiberg&quot;</span></div>
                                         <div><span className="text-neural-light">self.specialization = [</span></div>
                                         <div className="pl-4">
-                                            <div><span className="text-data-green">"Deep Learning"</span><span className="text-neural-light">,</span></div>
-                                            <div><span className="text-data-green">"Computer Vision"</span><span className="text-neural-light">,</span></div>
-                                            <div><span className="text-data-green">"Neural Networks"</span><span className="text-neural-light">,</span></div>
-                                            <div><span className="text-data-green">"MLOps"</span></div>
+                                            <div><span className="text-data-green">&quot;Deep Learning&quot;</span><span className="text-neural-light">,</span></div>
+                                            <div><span className="text-data-green">&quot;Computer Vision&quot;</span><span className="text-neural-light">,</span></div>
+                                            <div><span className="text-data-green">&quot;Neural Networks&quot;</span><span className="text-neural-light">,</span></div>
+                                            <div><span className="text-data-green">&quot;MLOps&quot;</span></div>
                                         </div>
                                         <div><span className="text-neural-light">]</span></div>
-                                        <div><span className="text-neural-light">self.status = </span><span className="text-data-green">"Training models & solving problems"</span></div>
+                                        <div><span className="text-neural-light">self.status = </span><span className="text-data-green">&quot;Training models &amp; solving problems&quot;</span></div>
                                     </div>
                                 </div>
                             </div>
