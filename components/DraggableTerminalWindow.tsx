@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface DraggableTerminalWindowProps {
     children: React.ReactNode;
@@ -15,8 +15,8 @@ export default function DraggableTerminalWindow({
     children,
     title,
     className = "",
-    width = "100%",
-    height = "100%",
+    width = "auto",
+    height = "auto",
     zIndexBase = 10
 }: DraggableTerminalWindowProps) {
     const elementRef = useRef<HTMLDivElement>(null)
@@ -106,7 +106,7 @@ export default function DraggableTerminalWindow({
             {/* Draggable Terminal Window */}
             <div
                 ref={elementRef}
-                className={`bg-neural-dark rounded-lg shadow-lg transition-shadow duration-200 ${isDragging ? 'shadow-2xl select-none' : 'shadow-lg'
+                className={`bg-neural-darker/90 backdrop-blur-md border border-neural-border/60 rounded-2xl overflow-hidden bg-gradient-to-br from-[rgba(10,10,15,0.95)] to-[rgba(30,41,59,0.3)] transition-shadow duration-200 ${isDragging ? 'select-none shadow-[0_20px_25px_-5px_rgba(0,0,0,0.6),0_10px_10px_-5px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]' : 'shadow-[0_20px_25px_-5px_rgba(0,0,0,0.4),0_10px_10px_-5px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.05)]'
                     } ${className}`}
                 style={{ width, height, zIndex: isDragging ? zIndex + 1000 : zIndex }}
                 onClick={bringToFront}
