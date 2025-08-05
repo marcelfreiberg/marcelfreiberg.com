@@ -18,7 +18,7 @@ export default function Navigation() {
     const pathname = usePathname();
 
     return (
-        <nav className="border-b border-terminal-green/30 bg-terminal-dark/90">
+        <nav className="border-b">
             <div className="max-w-6xl mx-auto px-4">
                 <div className="flex justify-between items-center py-4">
                     <Link
