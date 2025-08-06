@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { normalizePages } from 'nextra/normalize-pages'
 import { getPageMap } from 'nextra/page-map'
 import '../globals.css'
