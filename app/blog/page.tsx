@@ -1,38 +1,48 @@
-import Link from 'next/link'
-import { PostCard } from 'nextra-theme-blog'
-import { getPosts, getTags } from './get-posts'
-import 'nextra-theme-blog/style.css'
+import { normalizePages } from 'nextra/normalize-pages'
+import { getPageMap } from 'nextra/page-map'
+import '../globals.css'
+import BlogCard from '@/components/BlogCard'
 
-export const metadata = {
-  title: 'Posts'
+async function getPosts() {
+  const { directories } = normalizePages({
+    list: await getPageMap('/blog'),
+    route: '/blog'
+  })
+
+  return directories
+    .filter(post => post.name !== 'index')
+    .sort((a, b) => {
+      const dateA = a.frontMatter?.date
+      const dateB = b.frontMatter?.date
+      if (!dateA || !dateB) return 0
+      return new Date(dateB).getTime() - new Date(dateA).getTime()
+    })
+}
+
+async function getTags() {
+  const posts = await getPosts()
+  const tags = posts.flatMap(post => post.frontMatter?.tags || [])
+  return tags
 }
 
 export default async function PostsPage() {
-  const tags = await getTags()
   const posts = await getPosts()
-  const allTags: Record<string, number> = Object.create(null)
-
-  for (const tag of tags) {
-    allTags[tag] ??= 0
-    allTags[tag] += 1
-  }
 
   return (
-    <div data-pagefind-ignore="all" className="max-w-4xl mx-auto px-4 py-8">
-      {/* <h1>{metadata.title}</h1> */}
-      <div
-        className="not-prose"
-        style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem' }}
-      >
-        {Object.entries(allTags).map(([tag, count]) => (
-          <Link key={tag} href={`/tags/${tag}`} className="nextra-tag">
-            {tag} ({count})
-          </Link>
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post, index) => (
+          <BlogCard
+            key={post.route}
+            title={post.title as string}
+            description={post.frontMatter?.description}
+            index={posts.length - index - 1}
+            route={post.route}
+            date={post.frontMatter?.date}
+            tags={post.frontMatter?.tags}
+          />
         ))}
       </div>
-      {posts.map(post => (
-        <PostCard key={post.route} post={post} />
-      ))}
     </div>
   )
 }

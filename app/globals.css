@@ -88,4 +88,17 @@
             transform: translateX(100%);
         }
     }
+
+    /* Form Components */
+    .neural-input {
+        @apply bg-neural-darker/50 border border-neural-border/60 rounded-lg px-3 py-2 text-neural-light placeholder-neural-gray/60 focus:border-neural-blue focus:ring-1 focus:ring-neural-blue focus:outline-none transition-colors;
+    }
+
+    .neural-button {
+        @apply bg-gradient-to-r from-neural-blue to-neural-purple text-neural-light font-medium py-2 px-4 rounded-lg hover:from-neural-purple hover:to-neural-pink transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-neural-blue/50;
+    }
+
+    .neural-button:disabled {
+        @apply opacity-50 cursor-not-allowed hover:from-neural-blue hover:to-neural-purple;
+    }
 }
