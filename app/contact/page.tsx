@@ -11,7 +11,7 @@ export default function ContactPage() {
             <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-neural-blue via-neural-pink to-neural-purple bg-clip-text text-transparent">
                 Let&apos;s Connect
             </h1>
-            <div className="flex flex-col lg:flex-row gap-6 justify-between">
+            <div className="flex flex-col lg:flex-row gap-6 justify-between items-start">
                 <DraggableTerminalWindow
                     title="contact_methods.json"
                     width="500px"
@@ -59,6 +59,7 @@ export default function ContactPage() {
                                 className="neural-input w-full"
                                 placeholder="Your name"
                                 required
+                                disabled
                             />
                         </div>
 
@@ -72,6 +73,7 @@ export default function ContactPage() {
                                 className="neural-input w-full"
                                 placeholder="your@email.com"
                                 required
+                                disabled
                             />
                         </div>
 
@@ -84,10 +86,11 @@ export default function ContactPage() {
                                 className="neural-input w-full h-32 resize-none"
                                 placeholder="Tell me about your ML/CV project or research idea..."
                                 required
+                                disabled
                             />
                         </div>
 
-                        <button type="submit" className="neural-button w-full">
+                        <button type="submit" className="neural-button w-full" disabled>
                             Send Message
                         </button>
                     </form>
