@@ -1,8 +1,10 @@
-import { useMDXComponents as useBlogMDXComponents } from 'nextra-theme-blog'
+import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
+
+const blogComponents = getBlogMDXComponents()
 
 export function useMDXComponents(components) {
     return {
-        ...useBlogMDXComponents(),
+        ...blogComponents,
         ...components
     }
 }
