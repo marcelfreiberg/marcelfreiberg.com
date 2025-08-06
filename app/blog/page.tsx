@@ -3,7 +3,7 @@ import { getPageMap } from 'nextra/page-map'
 import '../globals.css'
 import BlogCard from '@/components/BlogCard'
 
-export async function getPosts() {
+async function getPosts() {
   const { directories } = normalizePages({
     list: await getPageMap('/blog'),
     route: '/blog'
@@ -19,7 +19,7 @@ export async function getPosts() {
     })
 }
 
-export async function getTags() {
+async function getTags() {
   const posts = await getPosts()
   const tags = posts.flatMap(post => post.frontMatter?.tags || [])
   return tags
