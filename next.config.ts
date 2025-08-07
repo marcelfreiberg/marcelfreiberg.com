@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
 }
 
 const withNextra = nextra({
-    search: false
+    search: false,
+    latex: true
 })
 
 export default withNextra(nextConfig)
