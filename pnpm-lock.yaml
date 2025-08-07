@@ -23,6 +23,9 @@ importers:
       '@types/nodemailer':
         specifier: ^6.4.17
         version: 6.4.17
+      katex:
+        specifier: ^0.16.22
+        version: 0.16.22
       next:
         specifier: 15.4.5
         version: 15.4.5(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
