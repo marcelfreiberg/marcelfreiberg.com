@@ -1,6 +1,7 @@
 import './globals.css'
 import Navigation from '@/components/Navigation'
 import { JetBrains_Mono } from 'next/font/google'
+import { Analytics } from "@vercel/analytics/next"
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
@@ -17,6 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="min-h-screen">
         <Navigation />
         <main>{children}</main>
+        <Analytics />
       </body>
     </html>
   )
