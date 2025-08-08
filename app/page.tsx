@@ -3,7 +3,7 @@ import DraggableTerminalWindow from "@/components/DraggableTerminalWindow";
 
 export default function Home() {
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8 space-y-12">
+        <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 lg:space-y-12">
             <section>
                 <div className="space-y-8">
                     <div className="space-y-4">
@@ -19,7 +19,7 @@ export default function Home() {
             {/* Responsive terminal layout */}
             <section className="space-y-6">
                 <div className="flex flex-col lg:flex-row justify-between gap-6 items-start">
-                    <DraggableTerminalWindow title="profile.py" width="530px">
+                    <DraggableTerminalWindow title="profile.py" width="100%" className="order-2 lg:order-1 w-full max-w-[530px]">
                         <div className="bg-neural-darker/80 border border-neural-border/40 rounded-lg p-4 font-mono text-sm text-neural-light/80 overflow-x-auto">
                             <span className="text-neural-purple">class</span> <span className="text-neural-cyan">MLEngineer</span><span className="text-neural-light">:</span>
                             <br />
@@ -41,14 +41,14 @@ export default function Home() {
                         </div>
                     </DraggableTerminalWindow>
 
-                    <DraggableTerminalWindow title="profile_img.jpg" >
+                    <DraggableTerminalWindow title="profile_img.jpg" className="order-1 lg:order-2 self-center lg:self-auto">
                         <Image
                             src="/SKP_0981-quadrat.jpg"
                             alt="Marcel Freiberg"
                             width={250}
                             height={250}
                             priority={true}
-                            className="rounded-lg"
+                            className="rounded-lg mx-auto"
                         />
                     </DraggableTerminalWindow>
                 </div>
