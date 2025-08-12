@@ -11,10 +11,11 @@ export default function ContactPage() {
             <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-neural-blue via-neural-pink to-neural-purple bg-clip-text text-transparent">
                 Let&apos;s Connect
             </h1>
-            <div className="flex flex-col lg:flex-row gap-6 justify-between items-start">
+            <div className="flex flex-col lg:flex-row gap-6 justify-between items-center lg:items-start">
                 <DraggableTerminalWindow
                     title="contact_methods.json"
-                    width="500px"
+                    width="100%"
+                    className="w-full max-w-[500px]"
                 >
                     <h3 className="text-xl font-bold text-neural-blue mb-4">Get In Touch</h3>
 
@@ -44,7 +45,8 @@ export default function ContactPage() {
                 </DraggableTerminalWindow>
                 <DraggableTerminalWindow
                     title="send_message.py"
-                    width="500px"
+                    width="100%"
+                    className="w-full max-w-[500px]"
                 >
                     <h3 className="text-xl font-bold text-neural-purple mb-4">Quick Message</h3>
 
