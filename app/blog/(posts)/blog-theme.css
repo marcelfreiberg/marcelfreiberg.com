@@ -1,164 +1,108 @@
-/* Route-scoped blog theme */
+@reference "../../globals.css";
 
-.blog-theme {
-    --bg: #0b0b13;
-    --surface: #11111b;
-    --surface-2: #151522;
-    --surface-3: #19192a;
-    --border: rgba(255, 255, 255, 0.08);
-    --border-2: rgba(255, 255, 255, 0.12);
-    --text: #e6e6f0;
-    --muted: #a2a2bd;
-    --accent-start: #7c3aed;
-    --accent-end: #ec4899;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-}
+@layer components {
+    .blog-theme {
+        @apply text-neural-light;
+    }
 
-.blog-theme {
-    color: var(--text);
-}
+    .blog-theme h1 {
+        @apply font-semibold text-4xl sm:text-5xl leading-tight tracking-tight mb-5 text-transparent bg-clip-text bg-gradient-to-r from-neural-purple to-neural-pink;
+    }
 
-.blog-theme h1 {
-    font-size: 2.6rem;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 1.25rem 0;
-    background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
+    .blog-theme .post-date {
+        @apply text-neural-gray text-sm -mt-1 mb-4;
+    }
 
-.blog-theme h2 {
-    font-size: 1.5rem;
-    margin: 2.25rem 0 0.75rem 0;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    position: relative;
-    scroll-margin-top: 84px;
-}
+    .blog-theme h2 {
+        @apply font-semibold text-2xl mt-9 mb-3 tracking-tight text-neural-light scroll-mt-24;
+    }
 
-.blog-theme p {
-    margin: 0.85rem 0;
-    line-height: 1.8;
-    color: var(--text);
-}
+    .blog-theme p {
+        @apply my-3 leading-8 text-neural-light/90;
+    }
 
-.blog-theme .abstract {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 18px 20px;
-    margin: 1rem 0 1.75rem 0;
-    box-shadow: var(--shadow);
-}
+    .blog-theme .abstract {
+        @apply border border-neural-border rounded-xl p-5 my-4 shadow-lg;
+    }
 
-.blog-theme .abstract .abstract-label {
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: none;
-    margin-bottom: 6px;
-    color: color-mix(in oklab, var(--accent-start) 65%, white 35%);
-}
+    .blog-theme .abstract .abstract-label {
+        @apply font-semibold tracking-wide mb-1 text-neural-purple;
+    }
 
-.blog-theme .abstract .abstract-text {
-    color: var(--text);
-}
+    .blog-theme .abstract .abstract-text {
+        @apply text-neural-light;
+    }
 
-.blog-theme strong {
-    color: #ffffff;
-}
+    .blog-theme strong {
+        @apply text-white;
+    }
 
-.blog-theme em {
-    color: var(--muted);
-}
+    .blog-theme em {
+        @apply text-neural-gray;
+    }
 
-/* Links inside prose */
-.blog-theme a {
-    color: var(--accent-end);
-    text-decoration: none;
-}
+    /* Links inside prose */
+    .blog-theme a {
+        @apply text-neural-pink no-underline;
+    }
 
-.blog-theme a:hover {
-    text-decoration: underline;
-}
+    .blog-theme a:hover {
+        @apply underline;
+    }
 
-/* KaTeX blocks – wrap like a code card */
-.blog-theme .katex-display {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    margin: 1.25rem 0 1.75rem 0;
-    box-shadow: var(--shadow);
-}
+    /* KaTeX blocks – wrap like a code card */
+    .blog-theme .katex-display {
+        @apply border border-neural-border rounded-xl p-6 my-5 shadow-lg;
+    }
 
-.blog-theme .katex-display .katex {
-    font-size: 1.02em;
-}
+    .blog-theme .katex-display .katex {
+        @apply text-base;
+    }
 
-/* Inline math slightly brighter */
-.blog-theme .katex {
-    color: #fff;
-}
+    /* Inline math slightly brighter */
+    .blog-theme .katex {
+        @apply text-white;
+    }
 
-/* Code blocks */
-.blog-theme pre {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    overflow: auto;
-    margin: 1.1rem 0;
-    box-shadow: var(--shadow);
-}
+    /* Code blocks */
+    .blog-theme pre {
+        @apply border border-neural-border rounded-lg px-4 py-4 overflow-auto my-3 shadow-lg;
+    }
 
-.blog-theme code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 0.92rem;
-    color: #e9e9ff;
-}
+    .blog-theme code {
+        @apply font-mono text-sm text-neural-light;
+    }
 
-/* Blockquotes as soft cards */
-.blog-theme blockquote {
-    border-left: 3px solid color-mix(in oklab, var(--accent-start), var(--accent-end));
-    margin: 1.25rem 0;
-    padding: 14px 16px;
-    border-radius: 10px;
-    color: var(--muted);
-}
+    /* Blockquotes as soft cards */
+    .blog-theme blockquote {
+        @apply border-l-4 border-neural-purple my-5 px-4 py-3 rounded-lg text-neural-gray;
+    }
 
-/* Tables */
-.blog-theme table {
-    width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
-    border-radius: 12px;
-    margin: 1.25rem 0;
-    border: 1px solid var(--border);
-}
+    /* Tables */
+    .blog-theme table {
+        @apply w-full border-collapse overflow-hidden rounded-xl my-5 border border-neural-border;
+    }
 
-.blog-theme thead th {
-    color: var(--text);
-    font-weight: 600;
-}
+    .blog-theme thead th {
+        @apply text-neural-light font-semibold;
+    }
 
-.blog-theme th,
-.blog-theme td {
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
-}
+    .blog-theme th,
+    .blog-theme td {
+        @apply py-3 px-4 border-b border-neural-border text-left;
+    }
 
-.blog-theme tbody tr:hover {
-    background: rgba(255, 255, 255, 0.03);
-}
+    .blog-theme tbody tr:hover {
+        @apply bg-white/5;
+    }
 
-/* Horizontal rule */
-.blog-theme hr {
-    border: none;
-    border-top: 1px solid var(--border-2);
-    margin: 2rem 0;
-}
+    /* Horizontal rule */
+    .blog-theme hr {
+        @apply border-0 border-t border-neural-border my-8;
+    }
 
-/* Small meta-like text */
-.blog-theme .muted {
-    color: var(--muted);
+    /* Small meta-like text */
+    .blog-theme .muted {
+        @apply text-neural-gray;
+    }
 }
