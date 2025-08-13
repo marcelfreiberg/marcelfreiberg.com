@@ -3,17 +3,27 @@ import { generateStaticParamsFor, importPage } from 'nextra/pages'
 import 'katex/dist/katex.min.css'
 import './blog-theme.css'
 
-export const generateStaticParams = generateStaticParamsFor('mdxPath')
+const baseGenerateStaticParams = generateStaticParamsFor('mdxPath')
+
+export async function generateStaticParams() {
+  const entries = await baseGenerateStaticParams()
+  // Strip leading 'blog' so routes are /blog/slug (not /blog/blog/slug)
+  return entries.map(({ mdxPath }) => ({
+    mdxPath: mdxPath[0] === 'blog' ? mdxPath.slice(1) : mdxPath
+  }))
+}
 
 export async function generateMetadata(props: { params: Promise<{ mdxPath: string[] }> }): Promise<Metadata> {
   const params = await props.params
-  const { metadata } = await importPage(params.mdxPath)
+  const mdxPath = ['blog', ...params.mdxPath]
+  const { metadata } = await importPage(mdxPath)
   return metadata as Metadata
 }
 
 export default async function Page(props: { params: Promise<{ mdxPath: string[] }> }) {
   const params = await props.params
-  const { default: MDXContent, metadata } = await importPage(params.mdxPath)
+  const mdxPath = ['blog', ...params.mdxPath]
+  const { default: MDXContent, metadata } = await importPage(mdxPath)
 
   type BlogMeta = { title?: string; date?: string | Date; abstract?: string }
   const { title, date: rawDate, abstract } = metadata as BlogMeta
