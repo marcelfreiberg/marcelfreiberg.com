@@ -1,6 +1,7 @@
 import { normalizePages } from 'nextra/normalize-pages'
 import { getPageMap } from 'nextra/page-map'
 import '../globals.css'
+
 import BlogCard from '@/components/BlogCard'
 
 async function getPosts() {
@@ -17,12 +18,6 @@ async function getPosts() {
       if (!dateA || !dateB) return 0
       return new Date(dateB).getTime() - new Date(dateA).getTime()
     })
-}
-
-async function getTags() {
-  const posts = await getPosts()
-  const tags = posts.flatMap(post => post.frontMatter?.tags || [])
-  return tags
 }
 
 export default async function PostsPage() {

@@ -1,10 +1,11 @@
 ---
 title: "Understanding Self-Distillation in Computer Vision"
-date: "2025-08-07"
+date: "2025-08-13"
 description: "Self-distillation has become one of those terms in machine learning that sounds more philosophical than technical. Exploring how neural networks can teach themselves to become better versions of themselves."
+abstract: "Self-distillation trains a model to learn from softened predictions of its own earlier state. By combining hard-label supervision with a distillation loss and optional feature-alignment, the approach improves generalization without architectural overhead. This article introduces the core idea, derives the main objectives, and explains convergence intuition for practical use in computer vision."
 ---
 
-# Understanding Self-Distillation in Computer Vision
+## Introduction
 
 Self-distillation has become one of those terms in machine learning that sounds more philosophical than technical. You might imagine a neural network meditating in a corner, thinking deeply about its own existence and eventually becoming a better version of itself. In reality, the process is much less spiritual but arguably just as fascinating.
 
@@ -75,3 +76,5 @@ Under certain smoothness assumptions, this process converges to a fixed point $\
 In essence, the model is not learning entirely new facts about the data but is reorganizing its knowledge in a way that makes it more efficient and adaptable. In computer vision, where data is high dimensional and often ambiguous, this subtle reorganization can make the difference between a model that performs well in the lab and one that succeeds in the real world.
 
 Self-distillation, then, is a curious mix of self-improvement and redundancy. It demonstrates that sometimes the best teacher for a model is simply a wiser version of itself. In that sense, perhaps the image of a neural network meditating was not entirely wrong after all.
+
+
