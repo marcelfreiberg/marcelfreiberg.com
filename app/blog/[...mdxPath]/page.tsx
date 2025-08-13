@@ -15,8 +15,8 @@ export default async function Page(props: { params: Promise<{ mdxPath: string[] 
   const params = await props.params
   const { default: MDXContent, metadata } = await importPage(params.mdxPath)
 
-  type BlogMeta = { title?: string; date?: string | Date }
-  const { title, date: rawDate } = metadata as BlogMeta
+  type BlogMeta = { title?: string; date?: string | Date; abstract?: string }
+  const { title, date: rawDate, abstract } = metadata as BlogMeta
 
   const formattedDate = (() => {
     if (!rawDate) return null
@@ -37,6 +37,12 @@ export default async function Page(props: { params: Promise<{ mdxPath: string[] 
     <div className="max-w-4xl mx-auto px-6 py-12 blog-theme">
       {title ? <h1>{title}</h1> : null}
       {formattedDate ? <div className="post-date">{formattedDate}</div> : null}
+      {abstract ? (
+        <div className="abstract">
+          <div className="abstract-label">Abstract</div>
+          <div className="abstract-text">{abstract}</div>
+        </div>
+      ) : null}
       <MDXContent />
     </div>
   )
