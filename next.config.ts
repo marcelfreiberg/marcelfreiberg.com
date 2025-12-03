@@ -1,12 +1,7 @@
-import type { NextConfig } from 'next'
-import nextra from 'nextra'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-}
+  /* config options here */
+};
 
-const withNextra = nextra({
-    search: false,
-    latex: true
-})
-
-export default withNextra(nextConfig)
+export default nextConfig;

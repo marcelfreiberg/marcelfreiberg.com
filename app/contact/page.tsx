@@ -1,9 +1,31 @@
 'use client'
 
 import DraggableTerminalWindow from "@/components/DraggableTerminalWindow"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLinkedin, faGithub } from '@fortawesome/free-brands-svg-icons'
 import Link from 'next/link'
+
+const iconClass = "w-6 h-6"
+
+const LinkedInIcon = () => (
+    <svg className={iconClass} viewBox="0 0 24 24" fill="none" aria-hidden>
+        <rect x="3" y="3" width="18" height="18" rx="2" className="fill-neural-cyan/20 stroke-neural-cyan" strokeWidth="1.5" />
+        <path
+            d="M9 17V10M9 7V7.01M12.5 17V13.5C12.5 12.6716 13.1716 12 14 12C14.8284 12 15.5 12.6716 15.5 13.5V17"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            className="text-neural-cyan"
+        />
+    </svg>
+)
+
+const GithubIcon = () => (
+    <svg className={iconClass} viewBox="0 0 24 24" fill="none" aria-hidden>
+        <path
+            d="M12 2C7.029 2 3 6.032 3 11.012c0 3.984 2.586 7.356 6.18 8.553.45.084.615-.196.615-.435 0-.216-.009-.933-.013-1.69-2.514.548-3.046-1.068-3.046-1.068-.41-1.044-1-1.323-1-1.323-.817-.56.062-.549.062-.549.904.064 1.38.931 1.38.931.803 1.377 2.106.98 2.62.749.082-.584.315-.98.573-1.206-2.007-.23-4.116-1.01-4.116-4.49 0-.992.354-1.804.933-2.44-.093-.228-.405-1.152.088-2.401 0 0 .756-.242 2.475.932a8.465 8.465 0 0 1 2.255-.304 8.46 8.46 0 0 1 2.255.304c1.719-1.174 2.474-.932 2.474-.932.494 1.249.182 2.173.09 2.401.58.636.932 1.448.932 2.44 0 3.49-2.113 4.257-4.127 4.483.324.278.612.83.612 1.674 0 1.209-.01 2.187-.01 2.484 0 .241.162.522.62.434C18.416 18.364 21 14.994 21 11.012 21 6.032 16.971 2 12 2Z"
+            className="fill-neural-purple"
+        />
+    </svg>
+)
 
 export default function ContactPage() {
     return (
@@ -21,10 +43,7 @@ export default function ContactPage() {
 
                     <div className="space-y-4">
                         <div className="flex items-center space-x-3">
-                            <FontAwesomeIcon
-                                icon={faLinkedin}
-                                className="text-neural-cyan w-5 h-5"
-                            />
+                            <LinkedInIcon />
                             <Link href="https://www.linkedin.com/in/marcelfreiberg/" target="_blank" rel="noopener noreferrer">
                                 <div className="text-neural-light">linkedin</div>
                                 <div className="text-neural-gray text-sm">in/marcelfreiberg</div>
@@ -32,10 +51,7 @@ export default function ContactPage() {
                         </div>
 
                         <div className="flex items-center space-x-3">
-                            <FontAwesomeIcon
-                                icon={faGithub}
-                                className="text-neural-purple w-5 h-5"
-                            />
+                            <GithubIcon />
                             <Link href="https://github.com/marcelfreiberg" target="_blank" rel="noopener noreferrer">
                                 <div className="text-neural-light">github</div>
                                 <div className="text-neural-gray text-sm">@marcelfreiberg</div>
