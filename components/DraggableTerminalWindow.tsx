@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface DraggableTerminalWindowProps {
     children: React.ReactNode;
@@ -23,7 +23,6 @@ export default function DraggableTerminalWindow({
     const placeholderRef = useRef<HTMLDivElement>(null)
     const [isDragging, setIsDragging] = useState(false)
     const [zIndex, setZIndex] = useState(zIndexBase)
-    const [dragEnabled, setDragEnabled] = useState(true)
 
     const [startX, setStartX] = useState(0)
     const [startY, setStartY] = useState(0)
@@ -35,35 +34,13 @@ export default function DraggableTerminalWindow({
         setZIndex(timeBasedZIndex)
     }
 
-    useEffect(() => {
-        if (typeof window === 'undefined') {
-            return
-        }
-
-        const computeIsTouch = () => {
-            const hasTouchPoints = navigator.maxTouchPoints && navigator.maxTouchPoints > 0
-            const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches
-            return hasTouchPoints || coarsePointer
-        }
-
-        const updateDragEnabled = () => {
-            setDragEnabled(!computeIsTouch())
-        }
-
-        updateDragEnabled()
-
-        const mediaQuery = window.matchMedia('(pointer: coarse)')
-        mediaQuery.addEventListener?.('change', updateDragEnabled)
-        window.addEventListener('resize', updateDragEnabled)
-
-        return () => {
-            mediaQuery.removeEventListener?.('change', updateDragEnabled)
-            window.removeEventListener('resize', updateDragEnabled)
-        }
-    }, [])
+    // Allow mouse and pen, disable for touch as it is not properly working with draggable elements
+    const isDragAllowed = (e: React.PointerEvent) => {
+        return e.pointerType === 'mouse' || e.pointerType === 'pen'
+    }
 
     const handlePointerDown = (e: React.PointerEvent) => {
-        if (!dragEnabled) return
+        if (!isDragAllowed(e)) return
         e.preventDefault()
         setIsDragging(true)
         bringToFront()
@@ -95,9 +72,8 @@ export default function DraggableTerminalWindow({
     }
 
     const handlePointerMove = (e: React.PointerEvent) => {
-        if (!dragEnabled) return
-        e.preventDefault()
         if (!isDragging) return
+        e.preventDefault()
 
         const element = elementRef.current
         if (!element) return
@@ -113,7 +89,6 @@ export default function DraggableTerminalWindow({
     }
 
     const handlePointerUp = (e: React.PointerEvent) => {
-        if (!dragEnabled) return
         if (!isDragging) return
 
         setIsDragging(false)
@@ -143,7 +118,8 @@ export default function DraggableTerminalWindow({
                 onClick={bringToFront}
             >
                 <div
-                    className={`bg-neural-darker rounded-t-lg px-4 py-3 border-b border-neural-gray/20 ${dragEnabled ? 'cursor-move' : 'cursor-default'} select-none flex items-center justify-between`}
+                    className="bg-neural-darker rounded-t-lg px-4 py-3 border-b border-neural-gray/20 cursor-move select-none flex items-center justify-between"
+                    style={{ touchAction: 'none' }}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
