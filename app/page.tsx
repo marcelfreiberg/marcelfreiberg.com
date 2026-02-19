@@ -43,7 +43,7 @@ export default function Home() {
 
                     <DraggableTerminalWindow title="profile_img.jpg" className="order-1 lg:order-2 self-center lg:self-auto">
                         <Image
-                            src="/SKP_0981-quadrat.jpg"
+                            src="https://mex7bxttci42tmsd.public.blob.vercel-storage.com/SKP_0981-quadrat.jpg"
                             alt="Marcel Freiberg"
                             width={250}
                             height={250}
