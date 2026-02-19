@@ -1,9 +1,14 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import DraggableTerminalWindow from "@/components/DraggableTerminalWindow";
 
 export default function Home() {
+    const [ready, setReady] = useState(false);
+
     return (
-        <div className="max-w-6xl mx-auto px-4 py-8 space-y-8 lg:space-y-12">
+        <div className={`max-w-6xl mx-auto px-4 py-8 space-y-8 lg:space-y-12 transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}>
             <section>
                 <div className="space-y-8">
                     <div className="space-y-4">
@@ -48,6 +53,7 @@ export default function Home() {
                             width={250}
                             height={250}
                             priority={true}
+                            onLoad={() => setReady(true)}
                             className="rounded-lg mx-auto"
                         />
                     </DraggableTerminalWindow>
