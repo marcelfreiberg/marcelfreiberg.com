@@ -7,13 +7,15 @@ interface DraggableTerminalWindowProps {
     title: string;
     className?: string;
     zIndexBase?: number;
+    onClose?: () => void;
 }
 
 export default function DraggableTerminalWindow({
     children,
     title,
     className = "",
-    zIndexBase = 10
+    zIndexBase = 10,
+    onClose,
 }: DraggableTerminalWindowProps) {
     const {
         elementRef,
@@ -45,7 +47,15 @@ export default function DraggableTerminalWindow({
                     {...handleProps}
                 >
                     <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-[#ff5f57] rounded-full"></div>
+                        {onClose ? (
+                            <button
+                                className="w-3 h-3 bg-[#ff5f57] rounded-full hover:brightness-110 cursor-pointer"
+                                onClick={(e) => { e.stopPropagation(); onClose(); }}
+                                aria-label="Close window"
+                            />
+                        ) : (
+                            <div className="w-3 h-3 bg-[#ff5f57] rounded-full" />
+                        )}
                         <div className="w-3 h-3 bg-[#febc2e] rounded-full"></div>
                         <div className="w-3 h-3 bg-[#28c840] rounded-full"></div>
                     </div>
