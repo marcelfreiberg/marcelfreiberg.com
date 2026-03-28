@@ -6,8 +6,6 @@ interface DraggableTerminalWindowProps {
     children: React.ReactNode;
     title: string;
     className?: string;
-    width?: string;
-    height?: string;
     zIndexBase?: number;
 }
 
@@ -15,8 +13,6 @@ export default function DraggableTerminalWindow({
     children,
     title,
     className = "",
-    width = "auto",
-    height = "auto",
     zIndexBase = 10
 }: DraggableTerminalWindowProps) {
     const {
@@ -34,22 +30,18 @@ export default function DraggableTerminalWindow({
             <div
                 ref={placeholderRef}
                 className={className}
-                style={{
-                    display: 'none',
-                    width,
-                    height
-                }}
+                style={{ display: 'none' }}
             />
 
             <div
                 ref={elementRef}
-                className={`bg-surface border border-border rounded-xl overflow-hidden transition-shadow duration-200 flex flex-col ${isDragging ? 'select-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]' : 'shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]'
+                className={`bg-surface border border-border rounded-lg overflow-hidden transition-shadow duration-200 flex flex-col ${isDragging ? 'select-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]' : 'shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]'
                     } ${className}`}
-                style={{ width, height, zIndex: isDragging ? zIndex + 1000 : zIndex }}
+                style={{ zIndex: isDragging ? zIndex + 1000 : zIndex }}
                 onClick={bringToFront}
             >
                 <div
-                    className={`bg-bg px-4 py-3 border-b border-border ${dragEnabled ? 'cursor-move' : 'cursor-default'} select-none flex items-center justify-between`}
+                    className={`bg-bg px-4 py-2 border-b border-border ${dragEnabled ? 'cursor-move' : 'cursor-default'} select-none flex items-center justify-between`}
                     {...handleProps}
                 >
                     <div className="flex items-center space-x-2">
@@ -60,7 +52,7 @@ export default function DraggableTerminalWindow({
                     <span className="text-muted text-xs font-mono">{title}</span>
                 </div>
 
-                <div className="p-5 flex-1 overflow-auto"> {children} </div>
+                <div className="p-3 flex-1 overflow-auto"> {children} </div>
             </div>
         </>
     )

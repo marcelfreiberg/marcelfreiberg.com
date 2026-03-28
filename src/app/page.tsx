@@ -5,7 +5,7 @@ import DraggableTerminalWindow from "@/components/draggable-terminal-window";
 export default function Home() {
     return (
         <div className="h-[calc(100vh-49px)] flex items-center justify-center px-6 py-8">
-            <DraggableTerminalWindow title="marcel@freiberg: ~" width="100%" height="75vh" className="max-w-3xl">
+            <DraggableTerminalWindow title="marcel@freiberg: ~" className="w-full max-w-[640px] h-[480px] max-sm:max-w-full max-sm:h-auto max-sm:max-h-[75vh]">
                 <div className="font-mono text-sm space-y-3">
                     <div>
                         <span className="text-muted">$</span>{" "}
