@@ -31,7 +31,7 @@ export default function DraggableTerminalWindow({
     const [initialTop, setInitialTop] = useState(0)
 
     const bringToFront = () => {
-        const timeBasedZIndex = Date.now() % 1000000 + 10000 // Range: 10000-1010000
+        const timeBasedZIndex = Date.now() % 1000000 + 10000
         setZIndex(timeBasedZIndex)
     }
 
@@ -123,7 +123,6 @@ export default function DraggableTerminalWindow({
 
     return (
         <>
-            {/* Placeholder to maintain layout space during drag */}
             <div
                 ref={placeholderRef}
                 className={className}
@@ -134,29 +133,28 @@ export default function DraggableTerminalWindow({
                 }}
             />
 
-            {/* Draggable Terminal Window */}
             <div
                 ref={elementRef}
-                className={`bg-neural-darker/90 backdrop-blur-md border border-neural-border/60 rounded-2xl overflow-hidden bg-gradient-to-br from-[rgba(10,10,15,0.95)] to-[rgba(30,41,59,0.3)] transition-shadow duration-200 ${isDragging ? 'select-none shadow-[0_20px_25px_-5px_rgba(0,0,0,0.6),0_10px_10px_-5px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]' : 'shadow-[0_20px_25px_-5px_rgba(0,0,0,0.4),0_10px_10px_-5px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.05)]'
+                className={`bg-surface border border-border rounded-xl overflow-hidden transition-shadow duration-200 flex flex-col ${isDragging ? 'select-none shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)]' : 'shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]'
                     } ${className}`}
                 style={{ width, height, zIndex: isDragging ? zIndex + 1000 : zIndex }}
                 onClick={bringToFront}
             >
                 <div
-                    className={`bg-neural-darker rounded-t-lg px-4 py-3 border-b border-neural-gray/20 ${dragEnabled ? 'cursor-move' : 'cursor-default'} select-none flex items-center justify-between`}
+                    className={`bg-bg px-4 py-3 border-b border-border ${dragEnabled ? 'cursor-move' : 'cursor-default'} select-none flex items-center justify-between`}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
                 >
                     <div className="flex items-center space-x-2">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <div className="w-3 h-3 bg-[#ff5f57] rounded-full"></div>
+                        <div className="w-3 h-3 bg-[#febc2e] rounded-full"></div>
+                        <div className="w-3 h-3 bg-[#28c840] rounded-full"></div>
                     </div>
-                    <span className="text-neural-gray text-sm font-mono">{title}</span>
+                    <span className="text-muted text-xs font-mono">{title}</span>
                 </div>
 
-                <div className="p-4"> {children} </div>
+                <div className="p-5 flex-1 overflow-auto"> {children} </div>
             </div>
         </>
     )
