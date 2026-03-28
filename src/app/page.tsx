@@ -1,6 +1,6 @@
 "use client";
 
-import DraggableTerminalWindow from "@/components/DraggableTerminalWindow";
+import DraggableTerminalWindow from "@/components/draggable-terminal-window";
 
 export default function Home() {
     return (

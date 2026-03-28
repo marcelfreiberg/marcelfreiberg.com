@@ -1,5 +1,5 @@
 import './globals.css'
-import Navigation from '@/components/Navigation'
+import Navigation from '@/components/navigation'
 import { JetBrains_Mono } from 'next/font/google'
 import { GeistSans } from 'geist/font/sans'
 import { Analytics } from "@vercel/analytics/next"
