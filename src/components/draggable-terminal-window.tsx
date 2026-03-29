@@ -62,7 +62,7 @@ export default function DraggableTerminalWindow({
                     <span className="text-muted text-xs font-mono">{title}</span>
                 </div>
 
-                <div className="p-3 flex-1 overflow-auto"> {children} </div>
+                <div className="flex-1 overflow-hidden"> {children} </div>
             </div>
         </>
     )

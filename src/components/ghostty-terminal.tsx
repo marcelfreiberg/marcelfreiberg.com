@@ -90,7 +90,8 @@ export default function GhosttyTerminal({
   return (
     <div
       ref={containerRef}
-      style={{ width: "100%", height: "100%", overflow: "hidden" }}
+      className="ghostty-container"
+      style={{ width: "100%", height: "100%", overflow: "hidden", background: "#181818", position: "relative" }}
     />
   );
 }

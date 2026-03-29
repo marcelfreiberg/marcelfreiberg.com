@@ -38,4 +38,10 @@
     ::-webkit-scrollbar-thumb:hover {
         @apply bg-muted;
     }
+
+    .ghostty-container canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
