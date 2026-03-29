@@ -106,7 +106,7 @@ export function resolvePath(cwd: string, input: string): string {
   const parts = path.split("/");
   const resolved: string[] = [];
   for (const part of parts) {
-    if (part === ".") continue;
+    if (part === "" || part === ".") continue;
     if (part === "..") {
       if (resolved.length > 1) resolved.pop();
       // If at ~, stay at ~
@@ -115,7 +115,6 @@ export function resolvePath(cwd: string, input: string): string {
     }
   }
 
-  // Remove trailing slash
   let result = resolved.join("/");
   if (result === "") result = "~";
   return result;
