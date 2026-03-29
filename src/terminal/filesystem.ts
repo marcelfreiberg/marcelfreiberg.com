@@ -132,19 +132,36 @@ export function listDir(fs: FileSystem, dirPath: string): string[] {
     entries.push(rest);
   }
 
-  return entries.sort();
+  return entries.sort((a, b) => {
+    const aIsDir = fs[`${prefix}${a}`]?.kind === "dir";
+    const bIsDir = fs[`${prefix}${b}`]?.kind === "dir";
+    if (aIsDir !== bIsDir) return aIsDir ? -1 : 1;
+    return a.localeCompare(b);
+  });
 }
 
 export function formatLs(
   fs: FileSystem,
   dirPath: string,
   entries: string[],
-  long: boolean
+  long: boolean,
+  showAll = false
 ): string {
   const date = today();
   const lines: string[] = [""];
+  const shortEntries: { colored: string; displayLen: number }[] = [];
 
-  if (long) {
+  if (long && showAll) {
+    lines.push(`total ${entries.length + 2}`);
+    const dirColor = (n: string) =>
+      `\x1b[1;38;2;100;149;237m${n}\x1b[0m`;
+    lines.push(
+      `  drwxr-xr-x  marcel  marcel    4096  ${date}  ${dirColor(".")}`
+    );
+    lines.push(
+      `  drwxr-xr-x  marcel  marcel    4096  ${date}  ${dirColor("..")}`
+    );
+  } else if (long) {
     lines.push(`total ${entries.length}`);
   }
 
@@ -162,7 +179,25 @@ export function formatLs(
         `  ${perm}  marcel  marcel  ${size}  ${date}  ${coloredName}`
       );
     } else {
-      lines.push(`  ${colorEntry(name, entry)}`);
+      const colored = colorEntry(name, entry);
+      const displayLen = entry.kind === "dir" ? name.length + 1 : name.length;
+      shortEntries.push({ colored, displayLen });
+    }
+  }
+
+  if (!long && shortEntries.length > 0) {
+    const colWidth = Math.max(...shortEntries.map((e) => e.displayLen)) + 2;
+    const cols = Math.max(1, Math.floor(60 / colWidth));
+    for (let i = 0; i < shortEntries.length; i += cols) {
+      const row = shortEntries.slice(i, i + cols);
+      const formatted = row
+        .map((e, idx) => {
+          if (idx === row.length - 1) return `  ${e.colored}`;
+          const pad = colWidth - e.displayLen;
+          return `  ${e.colored}${" ".repeat(pad)}`;
+        })
+        .join("");
+      lines.push(formatted);
     }
   }
 

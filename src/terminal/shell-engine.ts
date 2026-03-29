@@ -162,7 +162,14 @@ export function createShellEngine(
     cwd: string,
     args: string[]
   ): CommandResult {
-    const long = args.includes("-al") || args.includes("-la") || args.includes("-l");
+    const flags = new Set<string>();
+    for (const a of args) {
+      if (a.startsWith("-") && a.length > 1) {
+        for (const ch of a.slice(1)) flags.add(ch);
+      }
+    }
+    const long = flags.has("l");
+    const showAll = flags.has("a");
     const pathArgs = args.filter((a) => !a.startsWith("-"));
     const targetPath = pathArgs.length > 0 ? resolvePath(cwd, pathArgs[0]) : cwd;
 
@@ -201,7 +208,7 @@ export function createShellEngine(
     }
     return {
       type: "output",
-      text: formatLs(fs, targetPath, entries, long),
+      text: formatLs(fs, targetPath, entries, long, showAll),
     };
   }
 
