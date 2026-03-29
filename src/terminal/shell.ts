@@ -1,13 +1,9 @@
-import type { TerminalIO, WindowCommand } from "./types";
+import type { TerminalIO } from "./types";
+import type { WindowManager } from "./window-manager";
 import { createShellEngine } from "./shell-engine";
 
-export type { WindowCommand } from "./types";
-
-export function attachShell(
-  term: TerminalIO,
-  onWindowCommand: (cmd: WindowCommand) => void
-) {
-  const engine = createShellEngine();
+export function attachShell(term: TerminalIO, wm: WindowManager) {
+  const engine = createShellEngine(wm);
   let inputBuffer = "";
 
   term.write(engine.motd);
@@ -24,24 +20,6 @@ export function attachShell(
             break;
           case "clear":
             term.write("\x1b[2J\x1b[H");
-            break;
-          case "open-window":
-            term.write(
-              `\x1b[38;2;115;115;115mOpening ${result.windowId}...\x1b[0m\r\n`
-            );
-            onWindowCommand(result);
-            break;
-          case "focus-window":
-            term.write(
-              `\x1b[38;2;115;115;115mFocusing ${result.windowId}...\x1b[0m\r\n`
-            );
-            onWindowCommand(result);
-            break;
-          case "close-window":
-            term.write(
-              `\x1b[38;2;115;115;115mClosing ${result.windowId}...\x1b[0m\r\n`
-            );
-            onWindowCommand(result);
             break;
         }
       }
@@ -65,9 +43,6 @@ export function attachShell(
   return {
     dispose() {
       onDataDisposable.dispose();
-    },
-    closeWindow(windowId: string) {
-      engine.closeWindow(windowId);
     },
   };
 }

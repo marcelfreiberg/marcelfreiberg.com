@@ -2,8 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef, useLayoutEffect } from "react";
 import DraggableTerminalWindow from "@/components/draggable-terminal-window";
-import type { WindowCommand } from "@/terminal/types";
-import type { GhosttyTerminalHandle } from "@/terminal/ghostty-terminal";
+import { createWindowManager } from "@/terminal/window-manager";
 
 type OpenWindow = {
   id: string;
@@ -47,9 +46,35 @@ function useIsMobile() {
 export default function Home() {
   const [openWindows, setOpenWindows] = useState<OpenWindow[]>([]);
   const isMobile = useIsMobile();
-  const terminalRef = useRef<GhosttyTerminalHandle>(null);
   const windowRefs = useRef<Map<string, { bringToFront(): void }>>(new Map());
   const pendingFocusRef = useRef<string | null>(null);
+
+  const [wm] = useState(() =>
+    createWindowManager(new Set(Object.keys(WINDOW_CONFIGS))),
+  );
+
+  useEffect(() => {
+    return wm.subscribe((event) => {
+      switch (event.type) {
+        case "opened": {
+          const config = WINDOW_CONFIGS[event.windowId];
+          if (!config) return;
+          pendingFocusRef.current = event.windowId;
+          setOpenWindows((prev) => {
+            if (prev.some((w) => w.id === event.windowId)) return prev;
+            return [...prev, { id: event.windowId, title: config.title }];
+          });
+          break;
+        }
+        case "closed":
+          setOpenWindows((prev) => prev.filter((w) => w.id !== event.windowId));
+          break;
+        case "focused":
+          windowRefs.current.get(event.windowId)?.bringToFront();
+          break;
+      }
+    });
+  }, [wm]);
 
   useLayoutEffect(() => {
     if (pendingFocusRef.current) {
@@ -58,33 +83,9 @@ export default function Home() {
     }
   }, [openWindows]);
 
-  const handleWindowCommand = useCallback((cmd: WindowCommand) => {
-    switch (cmd.type) {
-      case "open-window": {
-        pendingFocusRef.current = cmd.windowId;
-        setOpenWindows((prev) => {
-          if (prev.some((w) => w.id === cmd.windowId)) return prev;
-          const config = WINDOW_CONFIGS[cmd.windowId];
-          if (!config) return prev;
-          return [...prev, { id: cmd.windowId, title: config.title }];
-        });
-        break;
-      }
-      case "focus-window": {
-        windowRefs.current.get(cmd.windowId)?.bringToFront();
-        break;
-      }
-      case "close-window": {
-        setOpenWindows((prev) => prev.filter((w) => w.id !== cmd.windowId));
-        break;
-      }
-    }
-  }, []);
-
   const handleCloseWindow = useCallback((id: string) => {
-    setOpenWindows((prev) => prev.filter((w) => w.id !== id));
-    terminalRef.current?.closeWindow(id);
-  }, []);
+    wm.close(id);
+  }, [wm]);
 
   return (
     <div className="h-[calc(100vh-49px)] flex items-center justify-center px-6 py-8">
@@ -95,7 +96,7 @@ export default function Home() {
         {isMobile ? (
           <MobileTerminal />
         ) : (
-          <GhosttyTerminal ref={terminalRef} onWindowCommand={handleWindowCommand} />
+          <GhosttyTerminal windowManager={wm} />
         )}
       </DraggableTerminalWindow>
 

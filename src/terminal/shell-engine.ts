@@ -1,4 +1,5 @@
 import type { FileSystem, CommandResult } from "./types";
+import type { WindowManager } from "./window-manager";
 import {
   createFileSystem,
   resolvePath,
@@ -14,7 +15,6 @@ export interface ShellState {
 
 export interface ShellEngine {
   execute(input: string): CommandResult;
-  closeWindow(windowId: string): void;
   readonly state: ShellState;
   readonly motd: string;
   prompt(): string;
@@ -83,10 +83,12 @@ const helpText = [
   "",
 ].join("\r\n");
 
-export function createShellEngine(initialFs?: FileSystem): ShellEngine {
+export function createShellEngine(
+  wm: WindowManager,
+  initialFs?: FileSystem,
+): ShellEngine {
   const fs = initialFs ?? createFileSystem();
   let cwd = "~";
-  const openWindows = new Set<string>();
 
   return {
     get state() {
@@ -97,9 +99,6 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
     },
     prompt() {
       return `${PROMPT_PREFIX}${cwd}${PROMPT_SUFFIX}`;
-    },
-    closeWindow(windowId: string) {
-      openWindows.delete(windowId);
     },
     execute(input: string): CommandResult {
       const trimmed = input.trim();
@@ -254,11 +253,18 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
       };
     }
     if (entry.kind === "file" && entry.windowId) {
-      if (openWindows.has(entry.windowId)) {
-        return { type: "focus-window", windowId: entry.windowId };
+      const result = wm.open(entry.windowId);
+      if (result === "unknown") {
+        return {
+          type: "output",
+          text: `open: ${args[0]}: No application available to open this file\r\n`,
+        };
       }
-      openWindows.add(entry.windowId);
-      return { type: "open-window", windowId: entry.windowId };
+      const verb = result === "opened" ? "Opening" : "Focusing";
+      return {
+        type: "output",
+        text: `\x1b[38;2;115;115;115m${verb} ${entry.windowId}...\x1b[0m\r\n`,
+      };
     }
     return {
       type: "output",
@@ -282,9 +288,11 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
         text: `close: ${args[0]}: No such file or directory\r\n`,
       };
     }
-    if (entry.kind === "file" && entry.windowId && openWindows.has(entry.windowId)) {
-      openWindows.delete(entry.windowId);
-      return { type: "close-window", windowId: entry.windowId };
+    if (entry.kind === "file" && entry.windowId && wm.close(entry.windowId)) {
+      return {
+        type: "output",
+        text: `\x1b[38;2;115;115;115mClosing ${entry.windowId}...\x1b[0m\r\n`,
+      };
     }
     return {
       type: "output",
