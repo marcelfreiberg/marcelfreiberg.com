@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import DraggableTerminalWindow from "@/components/draggable-terminal-window";
-import type { WindowCommand } from "@/terminal/shell";
+import type { WindowCommand } from "@/terminal/types";
 
 type OpenWindow = {
   id: string;

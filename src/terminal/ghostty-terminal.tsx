@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import type { WindowCommand } from "@/terminal/shell";
+import type { WindowCommand } from "@/terminal/types";
 
 interface GhosttyTerminalProps {
   onWindowCommand: (cmd: WindowCommand) => void;

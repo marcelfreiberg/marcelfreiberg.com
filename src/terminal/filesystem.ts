@@ -1,27 +1,4 @@
-export type WindowCommand = {
-  type: "open-window";
-  windowId: string;
-};
-
-export type FileEntry = {
-  kind: "file";
-  content: string;
-  binary?: boolean;
-  windowId?: string;
-  permissions: string;
-  size: string;
-  builtIn: boolean;
-};
-
-export type DirEntry = {
-  kind: "dir";
-  permissions: string;
-  builtIn: boolean;
-};
-
-export type FsEntry = FileEntry | DirEntry;
-
-export type FileSystem = Record<string, FsEntry>;
+import type { FileSystem, FsEntry } from "./types";
 
 function today(): string {
   const d = new Date();
