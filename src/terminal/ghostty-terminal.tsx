@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
-import type { WindowCommand } from "@/lib/shell";
+import type { WindowCommand } from "@/terminal/shell";
 
 interface GhosttyTerminalProps {
   onWindowCommand: (cmd: WindowCommand) => void;
@@ -67,7 +67,7 @@ export default function GhosttyTerminal({
 
     termRef.current = term;
 
-    const { attachShell } = await import("@/lib/shell");
+    const { attachShell } = await import("@/terminal/shell");
     const detachShell = attachShell(term, (cmd) =>
       onWindowCommandRef.current(cmd)
     );

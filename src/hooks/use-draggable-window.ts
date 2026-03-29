@@ -29,6 +29,7 @@ export function useDraggableWindow(options?: UseDraggableWindowOptions): UseDrag
     const placeholderRef = useRef<HTMLDivElement>(null)
 
     const [isDragging, setIsDragging] = useState(false)
+    const isDraggingRef = useRef(false)
     const [zIndex, setZIndex] = useState(zIndexBase)
     const [dragEnabled, setDragEnabled] = useState(true)
 
@@ -71,6 +72,7 @@ export function useDraggableWindow(options?: UseDraggableWindowOptions): UseDrag
     const handlePointerDown = (e: React.PointerEvent) => {
         if (!dragEnabled) return
         e.preventDefault()
+        isDraggingRef.current = true
         setIsDragging(true)
         bringToFront()
         onDragStart?.()
@@ -100,9 +102,10 @@ export function useDraggableWindow(options?: UseDraggableWindowOptions): UseDrag
     }
 
     const handlePointerMove = (e: React.PointerEvent) => {
-        if (!dragEnabled || !isDragging) return
+        if (!dragEnabled || !isDraggingRef.current) return
 
         if (e.buttons === 0) {
+            isDraggingRef.current = false
             setIsDragging(false)
             onDragEnd?.()
             return
@@ -127,7 +130,8 @@ export function useDraggableWindow(options?: UseDraggableWindowOptions): UseDrag
     }
 
     const handlePointerUp = (e: React.PointerEvent) => {
-        if (!dragEnabled || !isDragging) return
+        if (!dragEnabled || !isDraggingRef.current) return
+        isDraggingRef.current = false
         setIsDragging(false)
         onDragEnd?.()
         e.currentTarget.releasePointerCapture(e.pointerId)

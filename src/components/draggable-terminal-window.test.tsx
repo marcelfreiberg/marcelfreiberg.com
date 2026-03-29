@@ -26,7 +26,7 @@ describe('DraggableTerminalWindow', () => {
         })
 
         fireEvent.pointerDown(titleBar, { clientX: 150, clientY: 120, pointerId: 1 })
-        fireEvent.pointerMove(titleBar, { clientX: 250, clientY: 170, pointerId: 1 })
+        fireEvent.pointerMove(titleBar, { clientX: 250, clientY: 170, pointerId: 1, buttons: 1 })
 
         expect(window.style.left).toBe('200px')  // 100 + (250 - 150)
         expect(window.style.top).toBe('150px')    // 100 + (170 - 120)

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import DraggableTerminalWindow from "@/components/draggable-terminal-window";
-import type { WindowCommand } from "@/lib/shell";
+import type { WindowCommand } from "@/terminal/shell";
 
 type OpenWindow = {
   id: string;
@@ -106,12 +106,12 @@ function WindowContent({ id }: { id: string }) {
 import dynamic from "next/dynamic";
 
 const GhosttyTerminal = dynamic(
-  () => import("@/components/ghostty-terminal"),
+  () => import("@/terminal/ghostty-terminal"),
   { ssr: false }
 );
 
 const MobileTerminal = dynamic(
-  () => import("@/components/mobile-terminal"),
+  () => import("@/terminal/mobile-terminal"),
   { ssr: false }
 );
 
