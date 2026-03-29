@@ -272,3 +272,59 @@ describe("shell commands - edge cases", () => {
     }
   });
 });
+
+describe("window management", () => {
+  test("open a file with windowId returns open-window", () => {
+    const shell = createShellEngine();
+    const result = shell.execute("open photo.jpg");
+    expect(result).toEqual({ type: "open-window", windowId: "photo" });
+  });
+
+  test("opening an already-open window returns focus-window", () => {
+    const shell = createShellEngine();
+    shell.execute("open photo.jpg"); // first open
+    const result = shell.execute("open photo.jpg"); // second open
+    expect(result).toEqual({ type: "focus-window", windowId: "photo" });
+  });
+
+  test("close an open window returns close-window", () => {
+    const shell = createShellEngine();
+    shell.execute("open photo.jpg");
+    const result = shell.execute("close photo.jpg");
+    expect(result).toEqual({ type: "close-window", windowId: "photo" });
+  });
+
+  test("close a window that is not open returns error", () => {
+    const shell = createShellEngine();
+    const result = shell.execute("close photo.jpg");
+    expect(result).toEqual({
+      type: "output",
+      text: expect.stringContaining("No window is open"),
+    });
+  });
+
+  test("close with no arguments returns missing operand", () => {
+    const shell = createShellEngine();
+    const result = shell.execute("close");
+    expect(result).toEqual({
+      type: "output",
+      text: expect.stringContaining("missing operand"),
+    });
+  });
+
+  test("after closing, open re-opens the window", () => {
+    const shell = createShellEngine();
+    shell.execute("open photo.jpg");
+    shell.execute("close photo.jpg");
+    const result = shell.execute("open photo.jpg");
+    expect(result).toEqual({ type: "open-window", windowId: "photo" });
+  });
+
+  test("external close updates engine so open works again", () => {
+    const shell = createShellEngine();
+    shell.execute("open photo.jpg");
+    shell.closeWindow("photo"); // simulates X button
+    const result = shell.execute("open photo.jpg");
+    expect(result).toEqual({ type: "open-window", windowId: "photo" });
+  });
+});

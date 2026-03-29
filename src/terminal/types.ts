@@ -1,7 +1,7 @@
-export type WindowCommand = {
-  type: "open-window";
-  windowId: string;
-};
+export type WindowCommand =
+  | { type: "open-window"; windowId: string }
+  | { type: "focus-window"; windowId: string }
+  | { type: "close-window"; windowId: string };
 
 export type CommandResult =
   | { type: "output"; text: string }

@@ -1,5 +1,6 @@
 'use client'
 
+import { forwardRef, useImperativeHandle } from 'react'
 import { useDraggableWindow } from '@/hooks/use-draggable-window'
 
 interface DraggableTerminalWindowProps {
@@ -10,13 +11,18 @@ interface DraggableTerminalWindowProps {
     onClose?: () => void;
 }
 
-export default function DraggableTerminalWindow({
+export interface DraggableTerminalWindowHandle {
+    bringToFront(): void;
+}
+
+const DraggableTerminalWindow = forwardRef<DraggableTerminalWindowHandle, DraggableTerminalWindowProps>(
+  function DraggableTerminalWindow({
     children,
     title,
     className = "",
     zIndexBase = 10,
     onClose,
-}: DraggableTerminalWindowProps) {
+  }, ref) {
     const {
         elementRef,
         placeholderRef,
@@ -26,6 +32,8 @@ export default function DraggableTerminalWindow({
         dragEnabled,
         bringToFront,
     } = useDraggableWindow({ zIndexBase })
+
+    useImperativeHandle(ref, () => ({ bringToFront }));
 
     return (
         <>
@@ -66,4 +74,7 @@ export default function DraggableTerminalWindow({
             </div>
         </>
     )
-}
+  }
+);
+
+export default DraggableTerminalWindow;

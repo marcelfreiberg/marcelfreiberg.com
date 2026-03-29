@@ -31,6 +31,18 @@ export function attachShell(
             );
             onWindowCommand(result);
             break;
+          case "focus-window":
+            term.write(
+              `\x1b[38;2;115;115;115mFocusing ${result.windowId}...\x1b[0m\r\n`
+            );
+            onWindowCommand(result);
+            break;
+          case "close-window":
+            term.write(
+              `\x1b[38;2;115;115;115mClosing ${result.windowId}...\x1b[0m\r\n`
+            );
+            onWindowCommand(result);
+            break;
         }
       }
       inputBuffer = "";
@@ -50,7 +62,12 @@ export function attachShell(
     }
   });
 
-  return () => {
-    onDataDisposable.dispose();
+  return {
+    dispose() {
+      onDataDisposable.dispose();
+    },
+    closeWindow(windowId: string) {
+      engine.closeWindow(windowId);
+    },
   };
 }

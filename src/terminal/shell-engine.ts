@@ -14,6 +14,7 @@ export interface ShellState {
 
 export interface ShellEngine {
   execute(input: string): CommandResult;
+  closeWindow(windowId: string): void;
   readonly state: ShellState;
   readonly motd: string;
   prompt(): string;
@@ -70,6 +71,7 @@ const helpText = [
   "  \x1b[38;2;229;229;229mls -al\x1b[0m     \x1b[38;2;115;115;115m— Detailed list view\x1b[0m",
   "  \x1b[38;2;229;229;229mcat\x1b[0m        \x1b[38;2;115;115;115m— Print file contents\x1b[0m",
   "  \x1b[38;2;229;229;229mopen\x1b[0m       \x1b[38;2;115;115;115m— Open a file\x1b[0m",
+  "  \x1b[38;2;229;229;229mclose\x1b[0m      \x1b[38;2;115;115;115m— Close an open window\x1b[0m",
   "  \x1b[38;2;229;229;229mcd\x1b[0m         \x1b[38;2;115;115;115m— Change directory\x1b[0m",
   "  \x1b[38;2;229;229;229mpwd\x1b[0m        \x1b[38;2;115;115;115m— Print working directory\x1b[0m",
   "  \x1b[38;2;229;229;229mwhoami\x1b[0m     \x1b[38;2;115;115;115m— Who are you logged in as?\x1b[0m",
@@ -84,6 +86,7 @@ const helpText = [
 export function createShellEngine(initialFs?: FileSystem): ShellEngine {
   const fs = initialFs ?? createFileSystem();
   let cwd = "~";
+  const openWindows = new Set<string>();
 
   return {
     get state() {
@@ -94,6 +97,9 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
     },
     prompt() {
       return `${PROMPT_PREFIX}${cwd}${PROMPT_SUFFIX}`;
+    },
+    closeWindow(windowId: string) {
+      openWindows.delete(windowId);
     },
     execute(input: string): CommandResult {
       const trimmed = input.trim();
@@ -124,6 +130,8 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
         return handleCat(fs, cwd, args);
       case "open":
         return handleOpen(fs, cwd, args);
+      case "close":
+        return handleClose(fs, cwd, args);
       case "cd":
         return handleCd(fs, args);
       case "pwd":
@@ -246,11 +254,41 @@ export function createShellEngine(initialFs?: FileSystem): ShellEngine {
       };
     }
     if (entry.kind === "file" && entry.windowId) {
+      if (openWindows.has(entry.windowId)) {
+        return { type: "focus-window", windowId: entry.windowId };
+      }
+      openWindows.add(entry.windowId);
       return { type: "open-window", windowId: entry.windowId };
     }
     return {
       type: "output",
       text: `open: ${args[0]}: No application available to open this file\r\n`,
+    };
+  }
+
+  function handleClose(
+    fs: FileSystem,
+    cwd: string,
+    args: string[]
+  ): CommandResult {
+    if (args.length === 0) {
+      return { type: "output", text: "close: missing operand\r\n" };
+    }
+    const path = resolvePath(cwd, args[0]);
+    const entry = fs[path];
+    if (!entry) {
+      return {
+        type: "output",
+        text: `close: ${args[0]}: No such file or directory\r\n`,
+      };
+    }
+    if (entry.kind === "file" && entry.windowId && openWindows.has(entry.windowId)) {
+      openWindows.delete(entry.windowId);
+      return { type: "close-window", windowId: entry.windowId };
+    }
+    return {
+      type: "output",
+      text: `close: ${args[0]}: No window is open for this file\r\n`,
     };
   }
 

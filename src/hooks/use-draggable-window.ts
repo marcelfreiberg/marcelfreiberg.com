@@ -71,6 +71,7 @@ export function useDraggableWindow(options?: UseDraggableWindowOptions): UseDrag
 
     const handlePointerDown = (e: React.PointerEvent) => {
         if (!dragEnabled) return
+        if ((e.target as HTMLElement).closest('button')) return
         e.preventDefault()
         isDraggingRef.current = true
         setIsDragging(true)
